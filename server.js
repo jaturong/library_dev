@@ -299,13 +299,14 @@ app.post('/api/books/:bookId/return', (req, res) => {
 // 8. Route พิเศษสำหรับทดสอบ
 // ================================================
 
-// หน้าแรก (Home) - แสดงข้อความเมื่อเปิดเบราว์เซอร์ที่ http://localhost:3000
+// หน้าแรก (Home) - แสดงข้อความเมื่อเปิดเบราว์เซอร์ที่ http://localhost:3000 หรือ IP เครือข่าย
 app.get('/', (req, res) => {
   res.send(`
     <h1>📚 ระบบห้องสมุด API (Simple Library API)</h1>
     <p>เซิร์ฟเวอร์ทำงานปกติ!</p>
     <p>ลองเรียก API ดู: <a href="/api/books">GET /api/books</a></p>
     <hr>
+    <p><strong>หมายเหตุสำหรับทีม:</strong> ถ้าใช้ IP เครือข่าย (เช่น 10.0.20.96) ให้แทนที่ localhost ด้วย IP นั้น</p>
     <h3>API ที่พร้อมใช้งาน:</h3>
     <ul>
       <li>GET /api/books - รายการหนังสือทั้งหมด</li>
@@ -325,16 +326,20 @@ app.get('/', (req, res) => {
 
 if (require.main === module) {
   // รันตรง ๆ ด้วย node server.js (local หรือบาง deployment)
-  app.listen(PORT, () => {
+  // ใช้ '0.0.0.0' เพื่อให้เครื่องอื่นในเครือข่ายเดียวกัน (LAN) เข้าถึงได้ผ่าน IP
+  app.listen(PORT, '0.0.0.0', () => {
     console.log('========================================');
-    console.log(`🚀 Server เริ่มทำงานที่: http://localhost:${PORT}`);
-    console.log(`📚 API หนังสือ: http://localhost:${PORT}/api/books`);
+    console.log(`🚀 Server เริ่มทำงานที่:`);
+    console.log(`   - Localhost: http://localhost:${PORT}`);
+    console.log(`   - เครือข่าย (LAN): http://<your-ip>:${PORT}`);
+    console.log(`📚 ตัวอย่าง API หนังสือ: http://<your-ip>:${PORT}/api/books`);
     console.log('========================================');
     console.log('💡 กด Ctrl + C เพื่อหยุดเซิร์ฟเวอร์');
     console.log('');
     console.log('📋 ตัวอย่างข้อมูลหนังสือเริ่มต้น:');
     console.log(JSON.stringify(books, null, 2));
     console.log('');
+    console.log('💡 หากต้องการรู้ IP ของเครื่องนี้ ให้รันคำสั่ง: ipconfig (Windows) หรือ ifconfig/ip addr (Linux/Mac)');
   });
 } else {
   // Export app สำหรับ serverless (Netlify Functions, Vercel ฯลฯ)

@@ -55,14 +55,57 @@ https://library-dev.onrender.com
 - ทุกครั้งที่ push โค้ดขึ้น GitHub มันจะ deploy อัตโนมัติ
 - ข้อมูลหนังสือจะหายทุกครั้งที่ redeploy (เพราะใช้ memory) → ภายหลังค่อยเพิ่มฐานข้อมูลจริง
 
-### วิธีอื่น ๆ ที่นิยม
-- Railway.app (ฟรีดีกว่า Render ในบางกรณี)
-- Fly.io
-- Cyclic.sh
+### ใช้ Netlify ได้มั้ย?
 
-ต้องการให้ผมช่วยเขียนขั้นตอนละเอียดสำหรับ Railway หรืออย่างอื่นไหม? 
+**ตอบสั้น ๆ: ได้ครับ** แต่**ไม่ใช่วิธีที่เหมาะที่สุด** สำหรับ Express server แบบเต็มรูปแบบ
 
-หรือถ้า deploy เสร็จแล้ว บอก URL มา ผมจะปรับ README และตัวอย่างให้อัตโนมัติ
+**เหตุผลที่ไม่ค่อยเหมาะ**:
+- Netlify ถูกออกแบบมาเพื่อ **Static Website + Frontend** เป็นหลัก
+- สำหรับ Backend ต้องใช้ **Netlify Functions** (serverless)
+- เราได้ปรับโค้ดให้รองรับแล้ว (ใช้ `serverless-http`)
+- **ข้อจำกัดสำคัญ**:
+  - แต่ละ request เป็น cold start ได้ (ช้ากว่า 1-2 วินาทีครั้งแรก)
+  - In-memory data (ตัวแปร books) จะหายเกือบทุก request (เพราะ serverless แต่ละตัวแยกกัน)
+  - Timeout สั้น (Free tier 10 วินาที)
+  - ไม่เหมาะกับแอปที่ต้องการ state ต่อเนื่อง
+
+**อย่างไรก็ตาม** ผมได้เตรียมทุกอย่างไว้ให้พร้อม deploy บน Netlify แล้ว!
+
+#### ขั้นตอน Deploy บน Netlify
+
+1. ไปที่ [https://app.netlify.com](https://app.netlify.com) แล้ว Sign in ด้วย GitHub
+2. คลิก **Add new site** → **Import an existing project**
+3. เลือก GitHub repo: `jaturong/library_dev`
+4. ในหน้า Deploy settings ตั้งค่า:
+   - **Build command**: `npm install`
+   - **Publish directory**: `.` (เว้นว่างได้)
+   - Netlify จะ detect โฟลเดอร์ `netlify/functions` อัตโนมัติ
+5. กด **Deploy site**
+
+เมื่อ deploy เสร็จ คุณจะได้ URL เช่น:
+```
+https://your-project-name.netlify.app
+```
+
+**เรียก API ผ่าน URL นี้ได้เลย** (ขอบคุณที่เราตั้ง redirect ไว้ใน `netlify.toml`):
+- `https://your-project-name.netlify.app/api/books`
+- `https://your-project-name.netlify.app/api/books/B001/borrow`
+
+**ไฟล์ที่ปรับสำหรับ Netlify**:
+- `netlify.toml` — redirect `/api/*` ไปที่ function
+- `netlify/functions/api.js` — ห่อ Express ด้วย `serverless-http`
+- `server.js` — export `app` แทนการ listen เมื่อถูก require
+
+**สรุปคำแนะนำ**:
+- **อยากง่าย + ใกล้เคียง Express ปกติ** → ใช้ **Render.com** (แนะนำ)
+- **อยากใช้ Netlify จริง ๆ** (เพราะคุ้นเคย หรืออยากได้ static + function เดียวกัน) → ใช้ได้ (พร้อม deploy แล้ว)
+
+ถ้าต้องการ ผมช่วย:
+- ปรับ Netlify ให้ดีขึ้น (เช่น เพิ่ม environment variables)
+- เขียนขั้นตอน Railway (ดีกว่า Netlify สำหรับ full backend)
+- หรือ deploy ผ่าน Netlify CLI จากเครื่องคุณ
+
+บอกมาเลยว่าอยากไปทางไหนครับ!
 
 ---
 

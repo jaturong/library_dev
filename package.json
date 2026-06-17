@@ -1,0 +1,24 @@
+{
+  "name": "simple-library-api",
+  "version": "1.0.0",
+  "description": "Simple Library System API using Node.js + Express (in-memory data, JSON). For beginner learning and Front-end team integration.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "library",
+    "api",
+    "express",
+    "nodejs",
+    "beginner"
+  ],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "express": "^5.2.1"
+  }
+}

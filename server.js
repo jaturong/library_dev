@@ -311,9 +311,13 @@ app.get('/', (req, res) => {
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <title>📚 Library API Documentation</title>
+      <!-- Noto Sans Thai font -->
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+      <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;700&display=swap" rel="stylesheet">
       <style>
         body { 
-          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
+          font-family: 'Noto Sans Thai', sans-serif; 
           line-height: 1.6; 
           max-width: 1000px; 
           margin: 0 auto; 
@@ -321,7 +325,11 @@ app.get('/', (req, res) => {
           background: #f8f9fa; 
           color: #333; 
         }
-        h1, h2, h3 { color: #2c3e50; }
+        h1, h2, h3 { 
+          font-family: 'Noto Sans Thai', sans-serif; 
+          font-weight: 700; 
+          color: #2c3e50; 
+        }
         .header { background: #2c3e50; color: white; padding: 20px; border-radius: 8px; margin-bottom: 30px; }
         .endpoint { background: white; border: 1px solid #ddd; border-radius: 8px; padding: 20px; margin-bottom: 25px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
         .method { display: inline-block; padding: 4px 12px; border-radius: 4px; font-weight: bold; color: white; font-size: 14px; }
@@ -336,7 +344,7 @@ app.get('/', (req, res) => {
           color: #2c3e50; 
           padding: 2px 6px; 
           border-radius: 3px; 
-          font-family: 'Courier New', monospace; 
+          font-family: 'Noto Sans Thai', monospace; 
         }
         
         /* Code blocks inside pre - dark background, light text */
@@ -347,23 +355,32 @@ app.get('/', (req, res) => {
           border-radius: 6px; 
           overflow-x: auto; 
           margin: 10px 0;
+          font-family: 'Noto Sans Thai', monospace;
         }
         pre code { 
           background: transparent; 
           color: #ecf0f1; 
           padding: 0; 
           border-radius: 0;
+          font-family: 'Noto Sans Thai', monospace;
         }
         
-        .note { background: #fff3cd; border-left: 4px solid #ffc107; padding: 10px 15px; margin: 15px 0; color: #333; }
+        .note { background: #fff3cd; border-left: 4px solid #ffc107; padding: 10px 15px; margin: 15px 0; color: #333; font-family: 'Noto Sans Thai', sans-serif; }
         table { width: 100%; border-collapse: collapse; margin: 15px 0; background: white; }
-        th, td { border: 1px solid #ddd; padding: 8px 12px; text-align: left; }
+        th, td { 
+          border: 1px solid #ddd; 
+          padding: 8px 12px; 
+          text-align: left; 
+          font-family: 'Noto Sans Thai', sans-serif;
+        }
         th { background: #f1f1f1; color: #2c3e50; }
         .warning { color: #c0392b; font-weight: bold; }
         .section { margin-top: 40px; }
         
-        /* Make sure links in list are visible */
-        ul li { color: #333; }
+        /* Apply Noto Sans Thai to text elements */
+        body, h1, h2, h3, p, ul, li, small, .note, table, th, td, .endpoint {
+          font-family: 'Noto Sans Thai', sans-serif;
+        }
       </style>
     </head>
     <body>

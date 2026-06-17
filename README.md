@@ -5,7 +5,17 @@
 ข้อมูลเก็บในตัวแปร (In-memory) → ยังไม่ใช้ฐานข้อมูล  
 ข้อมูลเป็น JSON
 
+> **วิธีดึงโค้ดจาก GitHub (แนะนำสำหรับทีม)**
+> ```bash
+> git clone https://github.com/<your-username>/<repo-name>.git
+> cd <repo-name>
+> npm install
+> npm start
+> ```
+
 ---
+
+## 🚀 วิธีเริ่มต้นใช้งาน (สำหรับผู้เริ่มต้น)
 
 ## 🚀 วิธีเริ่มต้นใช้งาน (สำหรับผู้เริ่มต้น)
 

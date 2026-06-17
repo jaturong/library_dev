@@ -1,0 +1,15 @@
+[build]
+  # Netlify จะรัน npm install อัตโนมัติ
+  # ถ้าต้องการ build command เพิ่มเติม สามารถใส่ที่นี่ได้
+
+# ทำให้เรียก /api/books ได้ตรง ๆ โดยไม่ต้องพิมพ์ /.netlify/functions/api
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/api/:splat"
+  status = 200
+
+# (Optional) redirect root ไปที่ API docs หรือหน้าแรกถ้าต้องการ
+# [[redirects]]
+#   from = "/"
+#   to = "/.netlify/functions/api/"
+#   status = 200

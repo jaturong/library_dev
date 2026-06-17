@@ -320,17 +320,23 @@ app.get('/', (req, res) => {
 });
 
 // ================================================
-// 9. เริ่มต้นเซิร์ฟเวอร์
+// 9. เริ่มต้นเซิร์ฟเวอร์ (หรือ export สำหรับ serverless / Netlify Functions)
 // ================================================
 
-app.listen(PORT, () => {
-  console.log('========================================');
-  console.log(`🚀 Server เริ่มทำงานที่: http://localhost:${PORT}`);
-  console.log(`📚 API หนังสือ: http://localhost:${PORT}/api/books`);
-  console.log('========================================');
-  console.log('💡 กด Ctrl + C เพื่อหยุดเซิร์ฟเวอร์');
-  console.log('');
-  console.log('📋 ตัวอย่างข้อมูลหนังสือเริ่มต้น:');
-  console.log(JSON.stringify(books, null, 2));
-  console.log('');
-});
+if (require.main === module) {
+  // รันตรง ๆ ด้วย node server.js (local หรือบาง deployment)
+  app.listen(PORT, () => {
+    console.log('========================================');
+    console.log(`🚀 Server เริ่มทำงานที่: http://localhost:${PORT}`);
+    console.log(`📚 API หนังสือ: http://localhost:${PORT}/api/books`);
+    console.log('========================================');
+    console.log('💡 กด Ctrl + C เพื่อหยุดเซิร์ฟเวอร์');
+    console.log('');
+    console.log('📋 ตัวอย่างข้อมูลหนังสือเริ่มต้น:');
+    console.log(JSON.stringify(books, null, 2));
+    console.log('');
+  });
+} else {
+  // Export app สำหรับ serverless (Netlify Functions, Vercel ฯลฯ)
+  module.exports = app;
+}

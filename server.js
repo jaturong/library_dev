@@ -299,24 +299,129 @@ app.post('/api/books/:bookId/return', (req, res) => {
 // 8. Route พิเศษสำหรับทดสอบ
 // ================================================
 
-// หน้าแรก (Home) - แสดงข้อความเมื่อเปิดเบราว์เซอร์ที่ http://localhost:3000 หรือ IP เครือข่าย
+// หน้าแรก (Home) - API Documentation สำหรับทีม Front-end
+// หน้านี้จะถูกอัพเดททุกครั้งที่มีการขอคู่มือ endpoint ใหม่
 app.get('/', (req, res) => {
+  const baseUrl = 'http://10.0.20.96:3000';
+  
   res.send(`
-    <h1>📚 ระบบห้องสมุด API (Simple Library API)</h1>
-    <p>เซิร์ฟเวอร์ทำงานปกติ!</p>
-    <p>ลองเรียก API ดู: <a href="/api/books">GET /api/books</a></p>
-    <hr>
-    <p><strong>หมายเหตุสำหรับทีม:</strong> ถ้าใช้ IP เครือข่าย (เช่น 10.0.20.96) ให้แทนที่ localhost ด้วย IP นั้น</p>
-    <h3>API ที่พร้อมใช้งาน:</h3>
-    <ul>
-      <li>GET /api/books - รายการหนังสือทั้งหมด</li>
-      <li>GET /api/books/:bookId</li>
-      <li>POST /api/books - เพิ่มหนังสือ</li>
-      <li>PUT /api/books/:bookId - แก้ไข</li>
-      <li>DELETE /api/books/:bookId - ลบ</li>
-      <li>POST /api/books/:bookId/borrow - ยืม</li>
-      <li>POST /api/books/:bookId/return - คืน</li>
-    </ul>
+    <!DOCTYPE html>
+    <html lang="th">
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>📚 Library API Documentation</title>
+      <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; max-width: 1000px; margin: 0 auto; padding: 20px; background: #f8f9fa; }
+        h1, h2, h3 { color: #2c3e50; }
+        .header { background: #2c3e50; color: white; padding: 20px; border-radius: 8px; margin-bottom: 30px; }
+        .endpoint { background: white; border: 1px solid #ddd; border-radius: 8px; padding: 20px; margin-bottom: 25px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        .method { display: inline-block; padding: 4px 12px; border-radius: 4px; font-weight: bold; color: white; font-size: 14px; }
+        .post { background: #f39c12; }
+        .get { background: #27ae60; }
+        .put { background: #3498db; }
+        .delete { background: #e74c3c; }
+        code { background: #f4f4f4; padding: 2px 6px; border-radius: 3px; font-family: 'Courier New', monospace; }
+        pre { background: #2c3e50; color: #ecf0f1; padding: 15px; border-radius: 6px; overflow-x: auto; }
+        .note { background: #fff3cd; border-left: 4px solid #ffc107; padding: 10px 15px; margin: 15px 0; }
+        table { width: 100%; border-collapse: collapse; margin: 15px 0; }
+        th, td { border: 1px solid #ddd; padding: 8px 12px; text-align: left; }
+        th { background: #f1f1f1; }
+        .warning { color: #c0392b; font-weight: bold; }
+        .section { margin-top: 40px; }
+      </style>
+    </head>
+    <body>
+      <div class="header">
+        <h1>📚 ระบบห้องสมุด API</h1>
+        <p><strong>Base URL ปัจจุบัน:</strong> <code>http://10.0.20.96:3000</code></p>
+        <p>หน้านี้คือคู่มือการใช้งาน API สำหรับทีม Front-end (อัพเดทตามที่ขอ)</p>
+      </div>
+
+      <h2>📋 รายการ API ทั้งหมด</h2>
+      <ul>
+        <li><strong>GET</strong> <a href="/api/books">/api/books</a> - ดึงหนังสือทั้งหมด</li>
+        <li><strong>GET</strong> /api/books/:bookId - ดึงหนังสือตามรหัส</li>
+        <li><strong>POST</strong> <a href="#post-books">/api/books</a> - <strong>เพิ่มหนังสือใหม่</strong> (ดูคู่มือด้านล่าง)</li>
+        <li><strong>PUT</strong> /api/books/:bookId - แก้ไขหนังสือ</li>
+        <li><strong>DELETE</strong> /api/books/:bookId - ลบหนังสือ</li>
+        <li><strong>POST</strong> /api/books/:bookId/borrow - ยืมหนังสือ</li>
+        <li><strong>POST</strong> /api/books/:bookId/return - คืนหนังสือ</li>
+      </ul>
+
+      <hr>
+
+      <!-- คู่มือ POST /api/books -->
+      <div id="post-books" class="endpoint">
+        <h2>📘 คู่มือการใช้งาน: การเพิ่มหนังสือ</h2>
+        <p><span class="method post">POST</span> <code>/api/books</code></p>
+        
+        <h3>วัตถุประสงค์</h3>
+        <p>เพิ่มหนังสือใหม่เข้าไปในระบบห้องสมุด</p>
+
+        <h3>Request Body (JSON)</h3>
+        <pre><code>{
+  "bookId": "B006",           // จำเป็น - รหัสหนังสือ (ห้ามซ้ำ)
+  "bookName": "ชื่อหนังสือ",   // จำเป็น
+  "quantity": 5,              // ไม่จำเป็น (default = 1)
+  "position": "ชั้น 3 B",     // ไม่จำเป็น (default = "ยังไม่ระบุ")
+  "status": "AVAILABLE"       // ไม่จำเป็น (default = "AVAILABLE")
+}</code></pre>
+
+        <h3>ฟิลด์ที่จำเป็น</h3>
+        <table>
+          <tr><th>ฟิลด์</th><th>จำเป็น</th><th>ค่าเริ่มต้น</th><th>หมายเหตุ</th></tr>
+          <tr><td>bookId</td><td>ใช่</td><td>-</td><td>ต้องไม่ซ้ำกับที่มีอยู่</td></tr>
+          <tr><td>bookName</td><td>ใช่</td><td>-</td><td>ชื่อหนังสือ</td></tr>
+          <tr><td>quantity</td><td>ไม่</td><td>1</td><td>จำนวนเล่ม</td></tr>
+          <tr><td>position</td><td>ไม่</td><td>"ยังไม่ระบุ"</td><td>ชั้นที่เก็บ</td></tr>
+          <tr><td>status</td><td>ไม่</td><td>"AVAILABLE"</td><td>"AVAILABLE" หรือ "BORROWED"</td></tr>
+        </table>
+
+        <h3>ตัวอย่างการเรียก (JavaScript - Fetch)</h3>
+        <pre><code>fetch('${baseUrl}/api/books', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({
+    bookId: "B006",
+    bookName: "คิดเหมือนเศรษฐี",
+    quantity: 5,
+    position: "ชั้น 3 B",
+    status: "AVAILABLE"
+  })
+})
+.then(res => res.json())
+.then(data => console.log(data));</code></pre>
+
+        <h3>Response สำเร็จ (HTTP 201)</h3>
+        <pre><code>{
+  "success": true,
+  "message": "เพิ่มหนังสือสำเร็จ",
+  "data": {
+    "bookId": "B006",
+    "bookName": "คิดเหมือนเศรษฐี",
+    "quantity": 5,
+    "position": "ชั้น 3 B",
+    "status": "AVAILABLE"
+  }
+}</code></pre>
+
+        <h3>Response ล้มเหลว</h3>
+        <ul>
+          <li><strong>400</strong> - ไม่ได้ส่ง <code>bookId</code> หรือ <code>bookName</code></li>
+          <li><strong>400</strong> - <code>bookId</code> ซ้ำกับที่มีอยู่แล้ว</li>
+        </ul>
+
+        <div class="note">
+          <strong>หมายเหตุสำหรับทีม:</strong> ข้อมูลยังเป็นแบบ in-memory (หายเมื่อปิดเซิร์ฟเวอร์)
+        </div>
+      </div>
+
+      <hr>
+      <p><small>หน้านี้จะถูกอัพเดทเพิ่มเติมเมื่อคุณขอคู่มือของ API เส้นอื่น ๆ</small></p>
+      <p><small>Base URL ปัจจุบัน: <strong>http://10.0.20.96:3000</strong></small></p>
+    </body>
+    </html>
   `);
 });
 

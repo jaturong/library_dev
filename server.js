@@ -13,7 +13,9 @@ const cors = require('cors');         // อนุญาตให้เว็บ
 const app = express();
 
 // 3. กำหนดพอร์ตที่เซิร์ฟเวอร์จะรัน
-const PORT = 3000;
+// ใช้ process.env.PORT สำหรับ deployment (Render, Railway ฯลฯ)
+// ถ้าไม่เจอ env ให้ใช้ 3000 (สำหรับรัน local)
+const PORT = process.env.PORT || 3000;
 
 // ================================================
 // 4. Middleware (ตัวกลางที่ทำงานก่อนถึง Route)

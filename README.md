@@ -17,6 +17,55 @@
 
 ---
 
+## 🚀 Deploy API ขึ้นอินเทอร์เน็ต (ให้ทีม Front-end เรียกได้จากที่ไหนก็ได้)
+
+**คำตอบสั้น ๆ:** ไม่สามารถ run API แบบออนไลน์จาก GitHub โดยตรงได้  
+GitHub เป็นที่เก็บโค้ด ไม่ใช่ server
+
+**วิธีที่ดีที่สุด (ฟรี + ง่าย + เชื่อม GitHub อัตโนมัติ):**
+
+### ใช้ Render.com (แนะนำ)
+
+1. ไปที่ [https://render.com](https://render.com) แล้วกด **Sign up** ด้วย GitHub account เดียวกัน
+2. หลังล็อกอินเสร็จ → คลิก **+ New** → เลือก **Web Service**
+3. เลือก repository `jaturong/library_dev`
+4. ตั้งค่าดังนี้:
+   - **Name**: `library-dev` (หรือชื่ออื่น)
+   - **Environment**: `Node`
+   - **Region**: `Oregon (US West)` (หรือ Singapore ถ้ามี)
+   - **Branch**: `main`
+   - **Build Command**: `npm install`
+   - **Start Command**: `npm start`
+   - **Plan**: `Free`
+5. กด **Create Web Service**
+
+รอ 2-5 นาที (มันจะ build และ deploy ให้อัตโนมัติ)
+
+เมื่อเสร็จจะได้ URL สาธารณะ เช่น:
+```
+https://library-dev.onrender.com
+```
+
+**ทีม Front-end ใช้ URL นี้แทน localhost** เช่น
+- `https://library-dev.onrender.com/api/books`
+- `https://library-dev.onrender.com/api/books/B001/borrow`
+
+**หมายเหตุ**:
+- Free tier จะ "หลับ" หลังจากไม่มีการใช้งาน 15 นาที (ครั้งแรกที่เรียกจะช้า 10-20 วินาที แต่หลังจากนั้นเร็ว)
+- ทุกครั้งที่ push โค้ดขึ้น GitHub มันจะ deploy อัตโนมัติ
+- ข้อมูลหนังสือจะหายทุกครั้งที่ redeploy (เพราะใช้ memory) → ภายหลังค่อยเพิ่มฐานข้อมูลจริง
+
+### วิธีอื่น ๆ ที่นิยม
+- Railway.app (ฟรีดีกว่า Render ในบางกรณี)
+- Fly.io
+- Cyclic.sh
+
+ต้องการให้ผมช่วยเขียนขั้นตอนละเอียดสำหรับ Railway หรืออย่างอื่นไหม? 
+
+หรือถ้า deploy เสร็จแล้ว บอก URL มา ผมจะปรับ README และตัวอย่างให้อัตโนมัติ
+
+---
+
 ## 🚀 วิธีเริ่มต้นใช้งาน (สำหรับผู้เริ่มต้น)
 
 ## 🚀 วิธีเริ่มต้นใช้งาน (สำหรับผู้เริ่มต้น)

@@ -7,11 +7,13 @@
 
 > **วิธีดึงโค้ดจาก GitHub (แนะนำสำหรับทีม)**
 > ```bash
-> git clone https://github.com/<your-username>/<repo-name>.git
-> cd <repo-name>
+> git clone https://github.com/jaturong/library_dev.git
+> cd library_dev
 > npm install
 > npm start
 > ```
+>
+> **Repo URL:** https://github.com/jaturong/library_dev
 
 ---
 

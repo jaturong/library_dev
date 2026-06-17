@@ -312,7 +312,15 @@ app.get('/', (req, res) => {
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <title>📚 Library API Documentation</title>
       <style>
-        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; max-width: 1000px; margin: 0 auto; padding: 20px; background: #f8f9fa; }
+        body { 
+          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
+          line-height: 1.6; 
+          max-width: 1000px; 
+          margin: 0 auto; 
+          padding: 20px; 
+          background: #f8f9fa; 
+          color: #333; 
+        }
         h1, h2, h3 { color: #2c3e50; }
         .header { background: #2c3e50; color: white; padding: 20px; border-radius: 8px; margin-bottom: 30px; }
         .endpoint { background: white; border: 1px solid #ddd; border-radius: 8px; padding: 20px; margin-bottom: 25px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
@@ -321,14 +329,41 @@ app.get('/', (req, res) => {
         .get { background: #27ae60; }
         .put { background: #3498db; }
         .delete { background: #e74c3c; }
-        code { background: #f4f4f4; padding: 2px 6px; border-radius: 3px; font-family: 'Courier New', monospace; }
-        pre { background: #2c3e50; color: #ecf0f1; padding: 15px; border-radius: 6px; overflow-x: auto; }
-        .note { background: #fff3cd; border-left: 4px solid #ffc107; padding: 10px 15px; margin: 15px 0; }
-        table { width: 100%; border-collapse: collapse; margin: 15px 0; }
+        
+        /* Inline code - light background, dark text for good contrast */
+        code { 
+          background: #f1f1f1; 
+          color: #2c3e50; 
+          padding: 2px 6px; 
+          border-radius: 3px; 
+          font-family: 'Courier New', monospace; 
+        }
+        
+        /* Code blocks inside pre - dark background, light text */
+        pre { 
+          background: #2c3e50; 
+          color: #ecf0f1; 
+          padding: 15px; 
+          border-radius: 6px; 
+          overflow-x: auto; 
+          margin: 10px 0;
+        }
+        pre code { 
+          background: transparent; 
+          color: #ecf0f1; 
+          padding: 0; 
+          border-radius: 0;
+        }
+        
+        .note { background: #fff3cd; border-left: 4px solid #ffc107; padding: 10px 15px; margin: 15px 0; color: #333; }
+        table { width: 100%; border-collapse: collapse; margin: 15px 0; background: white; }
         th, td { border: 1px solid #ddd; padding: 8px 12px; text-align: left; }
-        th { background: #f1f1f1; }
+        th { background: #f1f1f1; color: #2c3e50; }
         .warning { color: #c0392b; font-weight: bold; }
         .section { margin-top: 40px; }
+        
+        /* Make sure links in list are visible */
+        ul li { color: #333; }
       </style>
     </head>
     <body>
